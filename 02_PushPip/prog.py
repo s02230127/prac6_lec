@@ -28,13 +28,28 @@ def parse_args():
     return parser.parse_args()
 
 
+def cow_union(cow1, cow2):
+    cow1 = cow1.split('\n')
+    cow2 = cow2.split('\n')
+    if len(cow1) < len(cow2):
+        cow1 = [''] * (len(cow2) - len(cow1)) + cow1
+    elif len(cow2) < len(cow1):
+        cow2 = [''] * (len(cow1) - len(cow2)) + cow2
+
+    max_len = max(len(i) for i in cow1)
+    for ind, val in enumerate(cow1):
+        cow1[ind] = val + ' ' * (max_len - len(val))
+    cow_res = list(i[0] + i[1] for i in zip(cow1, cow2))
+    return '\n'.join(cow_res)
+
+
 def main():
     args = parse_args()
     cow1 = cowsay.cowsay(args.message1, args.f, args.Mode, args.e, args.T, args.W, args.n)
     cow2 = cowsay.cowsay(args.message2, args.F, args.Mode, args.E, args.T, args.W, args.N)
+    cow_res = cow_union(cow1, cow2)
+    print(cow_res)
+
 
 if __name__ == "__main__":
     main()
-
-
-
