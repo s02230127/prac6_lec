@@ -1,6 +1,7 @@
 import random
 import sys
 import urllib.request
+import cowsay
 
 
 def bullscows(guess: str, secret: str) -> tuple[int, int]:
@@ -50,7 +51,7 @@ def ask(prompt: str, valid: list[str] = None) -> str:
 
 
 def inform(format_string: str, bulls: int, cows: int) -> None:
-    print(format_string.format(bulls, cows))
+    print(cowsay.cowsay(format_string.format(bulls, cows)))
 
 
 if __name__ == '__main__':
