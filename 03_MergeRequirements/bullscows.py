@@ -39,13 +39,15 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
 
 def ask(prompt: str, valid: list[str] = None) -> str:
     if not valid:
-        return input(prompt).strip().lower()
+        print(cowsay.cowsay(prompt))
+        return input().strip().lower()
     else:
         while True:
-            word = input(prompt).strip().lower()
+            print(cowsay.cowsay(prompt))
+            word = input().strip().lower()
             if word in valid:
                 break
-            print("Wrong word. Try again")
+            print(cowsay.cowsay("Wrong word. Try again"))
 
         return word
 
