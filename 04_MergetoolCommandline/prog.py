@@ -106,8 +106,8 @@ class MyCowsay(cmd.Cmd):
         
     def do_list_cows(self, arg):
         """list_cows [путь] - выводит список доступных коров"""
-        args = shlex.split(arg) if arg else []
         try:
+            args = shlex.split(arg) if arg else []
             if args:
                 cows = cowsay.list_cows(args[0])
             else:
@@ -146,13 +146,34 @@ class MyCowsay(cmd.Cmd):
         
         print(cowsay.make_bubble(message, width=width, wrap_text=wrap_text))
 
-
     def complete_cowsay(self, text, line, begidx, endidx):
-        pass    
+        try:
+            args = shlex.split(line[:begidx])
+        except Exception:
+            return []
+        
+        cows = cowsay.list_cows()
+        
+        if len(args) == 2:
+            return [c for c in cows if c.startswith(text)]
+        
+        if 'reply' in args:
+            ind = args.index('reply')
+            pos = len(args) - ind
+            if pos == 2:
+                return [c for c in cows if c.startswith(text)]
+        return []
 
     def complete_cowthink(self, text, line, begidx, endidx):
-        pass
+        return self.complete_cowsay(text, line, begidx, endidx)
 
+    def do_exit(self, arg):
+        """Выход"""
+        return True
+
+    def do_EOF(self, arg):
+        print()
+        return True
 
 if __name__ == '__main__':
     MyCowsay().cmdloop()
